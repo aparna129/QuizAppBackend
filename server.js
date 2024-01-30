@@ -25,7 +25,7 @@ app.use("/getQuizById", getQuizByIdRoute);
 app.use("/questionsUpdation", questionUpdationRoute);
 app.use("/impressionsUpdation", impressionsUpdationRoute);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4000;
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Quiz App" });
