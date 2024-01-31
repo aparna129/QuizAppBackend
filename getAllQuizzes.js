@@ -17,7 +17,7 @@ const isLoggedIn = (req, res, next) => {
         next();
         return;
       }
-    } 
+    }
   } catch (error) {
     res.status(400).json({
       error: "Token expired or invalid. Please login again",

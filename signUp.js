@@ -21,8 +21,10 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "Invalid name" });
     }
 
-    if (!email) {
-      return res.status(400).json({ error: "Invalid email" });
+    const emailRegex = /^[a-z]+@gmail\.com$/i;
+
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: "Invalid email format" });
     }
 
     const allUsers = await User.find();

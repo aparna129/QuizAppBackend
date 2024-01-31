@@ -67,7 +67,7 @@ router.post("/:userId", isLoggedIn, async (req, res) => {
 
     for (const question of questionsArray) {
       if (!question.question) {
-        return res.status(400).json({ error: "Please type the question" });
+        return res.status(400).json({ error: "Please type all the questions" });
       }
       question.optionValues = question.optionValues.filter(
         (option) => option.value !== null && option.value !== ""
@@ -76,6 +76,37 @@ router.post("/:userId", isLoggedIn, async (req, res) => {
       question.optionValues = question.optionValues.filter(
         (option) => option.imageUrl !== null && option.imageUrl !== ""
       );
+    }
+    for (const question of questionsArray) {
+      if (
+        !question.question ||
+        !question.optionType ||
+        !question.optionValues
+      ) {
+        return res.status(400).json({
+          error:
+            "Each question must have optionType  and optionValues.",
+        });
+      }
+
+      question.optionValues = question.optionValues.filter(
+        (option) => option.value !== null && option.value !== ""
+      );
+
+      question.optionValues = question.optionValues.filter(
+        (option) => option.imageUrl !== null && option.imageUrl !== ""
+      );
+
+      if (question.optionValues.length < 2) {
+        return res
+          .status(400)
+          .json({ error: "Minimum 2 options required for each question" });
+      }
+      if (question.optionValues.length > 4) {
+        return res
+          .status(400)
+          .json({ error: "Maximum only 4 options for each question" });
+      }
     }
 
     if (type === "QnA" && !timer) {
