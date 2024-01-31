@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "Invalid name" });
     }
 
-    const emailRegex = /^[a-z]+[0-9]+@gmail\.com$/i;
+    const emailRegex = /^[a-zA-Z0-9]+@gmail\.com$/;
 
     if (!emailRegex.test(email)) {
       return res.status(400).json({ error: "Invalid email format" });
