@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
 
     // Basic email validation 
 
-    const emailRegex = /^[a-zA-Z0-9]+@gmail\.com$/;
+    const emailRegex = /^\S+@\S+\.\S+$/;
 
     // test() method checks whether the provided string matches the regular expression pattern 
 
