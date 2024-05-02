@@ -42,7 +42,6 @@ router.patch("/:quizId", async (req, res) => {
       .json({ message: "Impressions Updated Successfully" });
   } catch (error) {
     console.log(error);
-
     return res.status(400).json({
       error:
         "Cannot Update Impressions. Something went wrong. Please try again after some time",

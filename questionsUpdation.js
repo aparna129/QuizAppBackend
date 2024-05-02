@@ -50,6 +50,9 @@ router.patch("/:quizId/:questionId", async (req, res) => {
 
     const currentQuestion = foundQuiz.questionsArray[currentQuestionIndex];
 
+    // We will not be getting all these values so they will be null ,
+    // so this condition isNan() is added here to handle this case 
+
     currentQuestion.peopleAnsweredCorrectly =
       currentQuestion.peopleAnsweredCorrectly +
       (isNaN(peopleAnsweredCorrectly) ? 0 : peopleAnsweredCorrectly);
@@ -81,7 +84,6 @@ router.patch("/:quizId/:questionId", async (req, res) => {
       .json({ message: "Question Updated Successfully", data: foundQuiz });
   } catch (error) {
     console.log(error);
-
     return res.status(400).json({
       error:
         "Cannot Update the Question. Something went wrong. Please try again after some time",

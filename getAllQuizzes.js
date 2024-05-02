@@ -39,6 +39,14 @@ router.get("/:userId", isLoggedIn, async (req, res) => {
 
     const allQuizzes = user.quizArray;
 
+    /* 
+    In JavaScript, arrays are reference types. When we assign or pass an array from one 
+    variable to another, we are actually passing a reference to the original array, not a copy of it.
+    When we use the slice() method without any parameters, it returns a shallow copy of the array, 
+    meaning a new array with the same elements as the original. This is useful when we want to sort 
+    an array without modifying the original array.
+    */
+
     const impressionsSortedQuizzes = allQuizzes
       .slice()
       .sort((a, b) => b.impressions - a.impressions);
@@ -63,6 +71,8 @@ router.get("/:userId", isLoggedIn, async (req, res) => {
         const quizCreatedDate = new Date(quiz.createdAt);
 
         const day = quizCreatedDate.getDate();
+        //Intl.DateTimeFormat is used to create a date formatter that formats dates using 
+        //the short form of the month 
         const month = new Intl.DateTimeFormat("en-US", {
           month: "short",
         }).format(quizCreatedDate);

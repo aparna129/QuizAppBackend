@@ -31,9 +31,18 @@ app.get("/", (req, res) => {
   res.status(200).json({ message: "Quiz App" });
 });
 
+// Route not found middleware
+
 app.use((req, res) => {
   res.status(200).json({ error: "Route not found" });
 });
+
+app.use((req,res,next,error)=>{
+  console.log(error);
+  res.status(400).json({
+    error: "Token expired or invalid. Please login again to create quiz",
+  });
+})
 
 app.listen(PORT, () => {
   mongoose

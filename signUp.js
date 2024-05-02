@@ -21,7 +21,11 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "Invalid name" });
     }
 
+    // Basic email validation 
+
     const emailRegex = /^[a-zA-Z0-9]+@gmail\.com$/;
+
+    // test() method checks whether the provided string matches the regular expression pattern 
 
     if (!emailRegex.test(email)) {
       return res.status(400).json({ error: "Invalid email format" });
@@ -70,3 +74,15 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
+
+/*
+
+Email Regex = /^[a-zA-Z0-9]+@gmail\.com$/
+
+The regular expression /^[a-zA-Z0-9]+@gmail.com$/ achieves the same effect, 
+but it includes an escape character (\) before the dot (.). In regular expressions, 
+the dot (.) has a special meaning; it matches any single character. However, when we
+want to match a literal dot, such as in the domain part of an email address, we need to escape 
+it with a backslash (\). So, \.com matches the literal string ".com".
+
+*/

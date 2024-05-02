@@ -9,15 +9,19 @@ router.use(cors());
 
 router.use(express.json());
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   res.status(200).json({ message: "Quiz Creation Page" });
 });
+
+// Middleware for checking whether user is logged in or not
 
 const isLoggedIn = (req, res, next) => {
   try {
     const { authorization } = req.headers;
 
     if (authorization) {
+      // Authorization contains Bearer <token> and we just want token so authorization.split(" ")[1];
+      // is written which specifically extracts the token part from the Authorization.
       const token = authorization.split(" ")[1];
       const user = jwt.verify(token, process.env.JWT_SECRETKEY);
       if (user) {
@@ -26,10 +30,7 @@ const isLoggedIn = (req, res, next) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    res.status(400).json({
-      error: "Token expired or invalid. Please login again to create quiz",
-    });
+    next(error);
   }
 };
 
@@ -77,6 +78,7 @@ router.post("/:userId", isLoggedIn, async (req, res) => {
         (option) => option.imageUrl !== null && option.imageUrl !== ""
       );
     }
+
     for (const question of questionsArray) {
       if (
         !question.question ||
@@ -84,8 +86,7 @@ router.post("/:userId", isLoggedIn, async (req, res) => {
         !question.optionValues
       ) {
         return res.status(400).json({
-          error:
-            "Each question must have optionType  and optionValues.",
+          error: "Each question must have optionType and optionValues.",
         });
       }
 
@@ -124,6 +125,7 @@ router.post("/:userId", isLoggedIn, async (req, res) => {
     };
 
     user.quizArray.push(newQuiz);
+
     await user.save();
 
     const newlyCreatedQuiz = user.quizArray[user.quizArray.length - 1];

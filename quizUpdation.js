@@ -58,10 +58,6 @@ router.patch("/:userId/:quizId", isLoggedIn, async (req, res) => {
       return res.status(400).json({ error: "Minimum 1 question required" });
     }
 
-    if (questionsArray.length > 5) {
-      return res.status(400).json({ error: "Maximum only 5 questions" });
-    }
-
     for (const question of questionsArray) {
       if (
         !question.question ||
@@ -95,6 +91,7 @@ router.patch("/:userId/:quizId", isLoggedIn, async (req, res) => {
     }
 
     user.quizArray[quizIndex].questionsArray = questionsArray;
+
     await user.save();
 
     return res.status(200).json({
@@ -103,7 +100,6 @@ router.patch("/:userId/:quizId", isLoggedIn, async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-
     return res.status(400).json({
       error:
         "Cannot Update Quiz. Something went wrong. Please try again after some time",

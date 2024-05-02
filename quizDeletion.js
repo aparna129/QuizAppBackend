@@ -52,13 +52,16 @@ router.delete("/:userId/:quizId", isLoggedIn, async (req, res) => {
       return res.status(400).json({ error: "Quiz doesn't exist" });
     }
 
+    // user.quizArray.splice(quizIndex, 1) is removing one element from the user.quizArray 
+    // array at the specified quizIndex.
+
     user.quizArray.splice(quizIndex, 1);
+
     await user.save();
 
     return res.status(200).json({ message: "Quiz Deleted Successfully" });
   } catch (error) {
     console.log(error);
-
     return res.status(400).json({
       error:
         "Cannot Delete Quiz. Something went wrong. Please try again after some time",

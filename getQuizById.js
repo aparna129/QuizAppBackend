@@ -15,6 +15,7 @@ router.get("/:quizId", async (req, res) => {
     let foundQuiz = null;
 
     for (const user of users) {
+      // foundQuiz will contain either a quiz or undefined
       foundQuiz = user.quizArray.find((quiz) => quiz._id.toString() === quizId);
       if (foundQuiz) {
         break; 
@@ -41,7 +42,6 @@ router.get("/:quizId", async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-
     return res.status(400).json({
       error:
         "Cannot Get Quiz. Something went wrong. Please try again after some time",
